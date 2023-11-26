@@ -1,0 +1,35 @@
+{
+	"short_name": "Oww Zone Vape Shop",
+	"name": "Oww Zone Vape Shop | Buy Now!",
+	"start_url": "/",
+	"icons": [
+		{
+			"src": "/favicon-512x512.png",
+			"type": "image/png",
+			"sizes": "512x512"
+		},
+		{
+			"src": "/favicon-144x144.png",
+			"type": "image/png",
+			"sizes": "144x144"
+		},
+		{
+			"src": "/favicon-192x192.png",
+			"type": "image/png",
+			"sizes": "192x192"
+		}
+	],
+	"background_color": "#ffffff",
+	"display": "standalone",
+	"scope": "/",
+	"theme_color": "#7F00FF",
+	"shortcuts": [
+		{
+			"name": "Shop",
+			"short_name": "Shop",
+			"description": "Shop the best products",
+			"url": "/shop"
+		}
+	],
+	"description": "Shop now to the best vape shop in the industry!"
+}

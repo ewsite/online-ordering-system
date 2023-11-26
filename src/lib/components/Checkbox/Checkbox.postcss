@@ -1,0 +1,81 @@
+span {
+	@apply flex
+        items-center
+        space-x-2
+        mb-2;
+}
+
+input,
+input::before,
+input::after {
+	@apply h-6
+        w-6;
+}
+
+input {
+	@apply relative
+        cursor-pointer
+        appearance-none;
+}
+
+input::before {
+	content: ' ';
+	@apply block
+        rounded
+        border-2;
+}
+
+input::after {
+	content: ' ';
+	@apply block
+        absolute
+        top-0
+        left-0
+        rounded;
+}
+
+input:checked:after {
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='-6 -6 36 36' stroke='%23ffffff' stroke-width='5' class='w-4 h-4' %3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M4.5 12.75l6 6 9-13.5' /%3E%3C/svg%3E%0A");
+}
+
+/* Colors -- Default Version */
+
+input.primary::before {
+	@apply border-blue-500 bg-opacity-10 bg-blue-500;
+}
+
+input.secondary::before {
+	@apply border-violet-500 bg-opacity-10 bg-violet-500;
+}
+
+input.warning::before {
+	@apply border-yellow-400 bg-opacity-10 bg-yellow-500;
+}
+
+input.success::before {
+	@apply border-green-500 bg-opacity-10 bg-green-500;
+}
+
+input.error::before {
+	@apply border-red-500 bg-opacity-10 bg-red-500;
+}
+
+input.primary::after:checked {
+	@apply bg-blue-500;
+}
+
+input.secondary::after:checked {
+	@apply bg-violet-500;
+}
+
+input.warning::after:checked {
+	@apply bg-yellow-400;
+}
+
+input.success::after:checked {
+	@apply bg-green-500;
+}
+
+input.error::after:checked {
+	@apply bg-red-500;
+}

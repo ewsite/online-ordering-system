@@ -1,0 +1,94 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String       @id @default(uuid())
+  credentials Credentials?
+  profile     Profile?
+}
+
+model Credentials {
+  id       String @id @default(uuid())
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId   String @unique
+  username String @unique
+  password String
+  role     String @default("user")
+}
+
+model Profile {
+  id           String         @id @default(uuid())
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId       String         @unique
+  firstName    String
+  lastName     String
+  age          Int
+  cart         Cart[]
+  order        Order[]
+  shippingInfo ShippingInfo[]
+}
+
+model Products {
+  id          Int      @id @default(autoincrement())
+  name        String
+  url_name    String   @unique
+  description String   @default("Lorem Ipsum Doormat. Please give me a description for...")
+  price       Float
+  createdAt   DateTime @default(now())
+  cart        Cart[]
+}
+
+model Cart {
+  id        Int      @id @default(autoincrement())
+  product   Products @relation(fields: [productId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  productId Int
+  profile   Profile  @relation(fields: [profileId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  profileId String
+  quantity  Int
+
+  @@unique([productId, profileId])
+}
+
+model ShippingInfo {
+  id             String  @id @default(uuid())
+  profile        Profile @relation(fields: [profileId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  profileId      String
+  firstName      String
+  lastName       String
+  streetBldgName String
+  unitFloor      String?
+  barangay       String
+  city           String
+  province       String
+}
+
+model Order {
+  id              Int         @id @default(autoincrement())
+  products        Json
+  profile         Profile?    @relation(fields: [profileId], references: [id], onUpdate: Cascade, onDelete: SetNull)
+  profileId       String?
+  shippingInfo    Json
+  paymentMethod   String      @default("cash")
+  paymentSettings Json?
+  orderStatus     OrderStatus @default(BEGIN_ORDER)
+  orderedAt       DateTime    @default(now())
+}
+
+enum OrderStatus {
+  BEGIN_ORDER
+  PACKED
+  SHIPPED
+  OUT_OF_DELIVERY
+  DELIVERED
+  CANCELLED
+  DELAYED
+}

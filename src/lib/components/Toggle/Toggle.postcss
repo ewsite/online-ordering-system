@@ -1,0 +1,67 @@
+span {
+	@apply flex
+        items-center
+        space-x-2;
+}
+
+span:not(:last-child) {
+	@apply mb-2;
+}
+input {
+	@apply w-14
+        h-8
+        relative
+        cursor-pointer;
+}
+
+input::before {
+	content: ' ';
+	@apply transition
+        duration-200
+        block
+        w-14
+        h-8
+        bg-slate-400
+        dark:bg-neutral-600
+        rounded-full;
+}
+
+input::after {
+	content: ' ';
+	@apply transition
+        duration-200
+        block
+        absolute
+        w-6
+        h-6
+        bg-slate-50
+        top-1
+        left-1
+        rounded-full;
+}
+
+input::after:checked {
+	@apply translate-x-6;
+}
+
+/* Colors -- Default Version */
+
+input.primary::before:checked {
+	@apply bg-blue-500;
+}
+
+input.secondary::before:checked {
+	@apply bg-violet-500;
+}
+
+input.warning::before:checked {
+	@apply bg-yellow-400;
+}
+
+input.success::before:checked {
+	@apply bg-green-500;
+}
+
+input.error::before:checked {
+	@apply bg-red-500;
+}

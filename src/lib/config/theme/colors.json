@@ -1,0 +1,11 @@
+{
+	"default": ["primary", "secondary", "success", "warning", "error", "plain"],
+	"invert": [
+		"primary-invert",
+		"secondary-invert",
+		"success-invert",
+		"warning-invert",
+		"error-invert",
+		"plain-invert"
+	]
+}
