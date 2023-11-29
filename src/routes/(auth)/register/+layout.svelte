@@ -1,34 +1,34 @@
 <script context="module">
-	const steps = writable(0);
-	const errorMessage = writable(null);
-	const data = writable(new Map());
+	const steps = writable(0)
+	const errorMessage = writable(null)
+	const data = writable(new Map())
 </script>
 
-<script>
-	import { enhance } from '$app/forms';
-	import { goto } from '$app/navigation';
-	import { setContext } from 'svelte';
-	import { writable } from 'svelte/store';
-	import { slide } from 'svelte/transition';
+<script lang="ts">
+	import { enhance } from '$app/forms'
+	import { goto } from '$app/navigation'
+	import { setContext } from 'svelte'
+	import { writable } from 'svelte/store'
+	import { slide } from 'svelte/transition'
 
-	const stepsEndpoint = ['/confirm-age', '/auth', '/profile', '/accept'];
+	const stepsEndpoint = ['/confirm-age', '/auth', '/profile', '/accept']
 
-	setContext('steps', steps);
-	setContext('errorMessage', errorMessage);
-	setContext('data', data);
+	setContext('steps', steps)
+	setContext('errorMessage', errorMessage)
+	setContext('data', data)
 	$: {
 		if ($steps != stepsEndpoint.length) {
 			if ($steps > 0) {
-				goto('/register' + stepsEndpoint[$steps], { replaceState: true });
-				$errorMessage = null;
+				goto('/register' + stepsEndpoint[$steps], { replaceState: true })
+				$errorMessage = null
 			}
 		} else {
-			$steps = 0;
-			$data = new Map();
+			$steps = 0
+			$data = new Map()
 		}
 	}
 	function backSteps() {
-		if (!$steps) goto('/login', { replaceState: true });
+		if (!$steps) goto('/login', { replaceState: true })
 	}
 </script>
 
@@ -66,12 +66,12 @@
 	action="/register?/register"
 	use:enhance={async ({ formData }) => {
 		for (const d of $data.keys()) {
-			formData.set(d, $data.get(d));
+			formData.set(d, $data.get(d))
 		}
-		return async ({}) => {
-			await goto('/login', { replaceState: true });
-			$steps++;
-		};
+		return async () => {
+			await goto('/login', { replaceState: true })
+			$steps++
+		}
 	}}
 >
 	<div>

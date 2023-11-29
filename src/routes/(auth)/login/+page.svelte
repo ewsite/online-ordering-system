@@ -1,17 +1,34 @@
-<script>
-	import { Input, Button } from '$lib/components';
-	import { enhance } from '$app/forms';
-	import redirectStores from '$lib/stores/redirectStores.js';
-	import { goto } from '$app/navigation';
-	import { fade, fly } from 'svelte/transition';
+<script lang="ts">
+	import { Input, Button } from '$lib/components'
+	import { enhance } from '$app/forms'
+	import redirectStores from '$lib/stores/redirectStores'
+	import { goto } from '$app/navigation'
+	import { fade, fly } from 'svelte/transition'
+	import type { SubmitFunction } from './$types'
 
-	export let data;
+	export let data
 
-	let errorMessage = String();
-	let processing = false;
+	let errorMessage: String
+	let processing = false
 
 	if (data.redirect) {
-		$redirectStores = data.redirect;
+		$redirectStores = data.redirect
+	}
+
+	const login: SubmitFunction = async () => {
+		processing = true
+		return async ({ result }) => {
+			processing = false
+			if (result.type == 'failure') {
+				errorMessage = 'Username or Password is incorrect'
+				return
+			}
+
+			await goto($redirectStores ? $redirectStores : '/', {
+				replaceState: true,
+				invalidateAll: true
+			})
+		}
 	}
 </script>
 
@@ -37,26 +54,9 @@
 	</div>
 	<p>Please login to continue.</p>
 </div>
-<form
-	method="POST"
-	use:enhance={() => {
-		processing = true;
-		return async ({ result }) => {
-			processing = false;
-			if (result.type === 'failure') {
-				errorMessage = result?.data?.body?.message;
-				return;
-			}
-
-			await goto($redirectStores ? $redirectStores : '/', {
-				replaceState: true,
-				invalidateAll: true
-			});
-		};
-	}}
->
+<form method="POST" use:enhance={login}>
 	<div class="space-y-4">
-		{#if errorMessage.length}
+		{#if errorMessage?.length}
 			<div class="space-y-4" transition:fly>
 				<div class="rounded bg-red-600 text-slate-50 px-4 py-3">
 					<b>{errorMessage}</b>
@@ -66,7 +66,9 @@
 		<div class="relative space-y-4">
 			<div class="flex flex-col space-y-4">
 				<Input name="username" required placeholder="Username">Username</Input>
-				<Input name="password" required placeholder="Password" type="password">Password</Input>
+				<Input name="password" required placeholder="Password" type="password"
+					>Password</Input
+				>
 			</div>
 			<div class="flex flex-col space-y-4">
 				<Button type="submit" formaction="?/login">

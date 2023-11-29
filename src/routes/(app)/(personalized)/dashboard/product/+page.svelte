@@ -1,9 +1,21 @@
-<script>
-	import { enhance } from '$app/forms';
-	import { Button, Modal, Input } from '$lib/components';
+<script lang="ts">
+	import { enhance } from '$app/forms'
+	import { Button, Modal, Input } from '$lib/components'
+	import type { SubmitFunction } from './$types'
 
-	let addProductModal = false;
-	let errorModalMessage = String();
+	let addProductModal = false
+	let errorModalMessage = String()
+
+	const addProduct: SubmitFunction = () => {
+		return async ({ result }) => {
+			if (result.type == 'failure') {
+				errorModalMessage = result.data?.body?.message ?? 'One of the fields are invalid.'
+				return
+			}
+			errorModalMessage = String()
+			addProductModal = false
+		}
+	}
 </script>
 
 <h3>Product Editor</h3>
@@ -18,20 +30,7 @@
 <Modal bind:openModal={addProductModal}>
 	<svelte:fragment slot="title">Add Product</svelte:fragment>
 	<svelte:fragment slot="body">
-		<form
-			action="?/add"
-			method="post"
-			use:enhance={() => {
-				return async ({ result }) => {
-					if (result.type == 'failure') {
-						errorModalMessage = result.data?.body?.message ?? 'One of the fields are invalid.';
-						return;
-					}
-					errorModalMessage = String();
-					addProductModal = false;
-				};
-			}}
-		>
+		<form action="?/add" method="post" use:enhance={addProduct}>
 			<div class="flex flex-col space-y-4">
 				{#if errorModalMessage?.length}
 					<div class="bg-red-500 text-slate-50 rounded-md font-bold px-3 py-4">

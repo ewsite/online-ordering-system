@@ -1,10 +1,10 @@
-<script>
-	import { Container } from '$lib/layouts';
-	import { Button } from '$lib/components';
-	import themeMode from '$lib/data/themeMode';
-	import { onMount } from 'svelte';
+<script lang="ts">
+	import { Container } from '$lib/layouts'
+	import { Button } from '$lib/components'
+	import themeMode from '$lib/data/themeMode'
+	import { onMount } from 'svelte'
 
-	onMount(() => themeMode.initialize());
+	onMount(() => themeMode.initialize())
 </script>
 
 <Container heading={true} itemsToCenter={true}>

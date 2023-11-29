@@ -1,16 +1,16 @@
 <script>
-	import { getContext } from 'svelte';
+	import { getContext } from 'svelte'
 
 	/**
 	 * @type {string}
 	 */
-	export let href;
+	export let href
 
 	/**
 	 * @type {boolean}
 	 */
-	export let active = false;
-	let closeSidePanelNavForItems = getContext('close');
+	export let active = false
+	let closeSidePanelNavForItems = getContext('close')
 </script>
 
 <a {href} class:active on:click={closeSidePanelNavForItems}><slot /></a>

@@ -1,24 +1,21 @@
-<script>
-	import { onMount } from 'svelte';
-	// import themeMode from '$lib/data/themeMode';
-	export let className = String();
-	export let heading = false; // Deprecated... almost
-	export let fullscreen = false;
+<script lang="ts">
+	import { onMount } from 'svelte'
+
+	export let className = String()
+	export let heading = false
+	export let fullscreen = false
 	// export let backgroundImage = String();
 	// export let darkBackgroundImage = String();
-	export let itemsToCenter = false;
-	let styles = String();
-
+	export let itemsToCenter = false
+	let styles = String()
 	export { styles as style }
-	/**
-	 * @type {HTMLElement}
-	 */
-	let container;
+
+	let container: HTMLDivElement
 	onMount(() => {
-		container.style.backgroundSize = 'cover';
-		container.style.backgroundRepeat = 'no-repeat';
-		container.style.backgroundPosition = 'center';
-	});
+		container.style.backgroundSize = 'cover'
+		container.style.backgroundRepeat = 'no-repeat'
+		container.style.backgroundPosition = 'center'
+	})
 
 	// $: {
 	// 	if (container)
@@ -30,7 +27,7 @@
 </script>
 
 <section class:yunjin={heading} class:nilou={fullscreen} class={className}>
-	<div bind:this={container}  style={ styles }  class:ayaka={itemsToCenter}>
+	<div bind:this={container} style={styles} class:ayaka={itemsToCenter}>
 		<slot />
 	</div>
 </section>

@@ -1,24 +1,24 @@
 <script>
-	import { cubicOut } from 'svelte/easing';
-	import { tweened } from 'svelte/motion';
+	import { cubicOut } from 'svelte/easing'
+	import { tweened } from 'svelte/motion'
 
 	export let min = 0,
 		max = 100,
-		value = 60;
+		value = 60
 
-	let isValueOverflow;
+	let isValueOverflow
 	const caclulatedValue = tweened(value, {
 		duration: 250,
 		easing: cubicOut
-	});
+	})
 
 	$: {
-		isValueOverflow = value < min || value > max;
+		isValueOverflow = value < min || value > max
 		if (!isValueOverflow) {
-			const resValue = ((value - min) / (max - min)) * 100;
-			caclulatedValue.set(resValue);
+			const resValue = ((value - min) / (max - min)) * 100
+			caclulatedValue.set(resValue)
 		} else {
-			caclulatedValue.set(100);
+			caclulatedValue.set(100)
 		}
 	}
 </script>

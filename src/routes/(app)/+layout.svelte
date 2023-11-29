@@ -1,13 +1,13 @@
-<script>
-	import { Navigation, Footer } from '$lib/layouts';
-	import themeMode from '$lib/data/themeMode';
-	import { onMount } from 'svelte';
-	import { navigating } from '$app/stores';
-	import { fade } from 'svelte/transition';
-	export let data;
-	let mounted = false;
+<script lang="ts">
+	import { Navigation, Footer } from '$lib/layouts'
+	import themeMode from '$lib/data/themeMode'
+	import { onMount } from 'svelte'
+	import { navigating } from '$app/stores'
+	import { fade } from 'svelte/transition'
+	export let data
+	let mounted = false
 
-	onMount(() => (mounted = themeMode.initialize()));
+	onMount(() => (mounted = themeMode.initialize()))
 </script>
 
 {#if mounted}

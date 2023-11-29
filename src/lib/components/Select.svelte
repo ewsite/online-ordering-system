@@ -1,14 +1,15 @@
 <script>
-	export let options = Array();
-	export let name = String();
-	export let value = null;
-	export let id = String();
-	export let placeholder = String();
-	export let className = String();
-	export let showLabel = true;
+	export let options = Array()
+	export let name = String()
+	export let value = null
+	export let id = String()
+	export let placeholder = String()
+	export let className = String()
+	export let showLabel = true
 	$: options =
-		options?.filter((option) => !Array.isArray(option) || 'name' in option || 'value' in option) ||
-		[];
+		options?.filter(
+			(option) => !Array.isArray(option) || 'name' in option || 'value' in option
+		) || []
 </script>
 
 <span class={className}>

@@ -1,8 +1,9 @@
-<script>
-	import { SidePanelContainer, SidePanelItem } from '$lib/components';
-	import { Container } from '$lib/layouts';
+<script lang="ts">
+	import { SidePanelContainer, SidePanelItem } from '$lib/components'
+	import { Container } from '$lib/layouts'
+	import type { PageData } from './$types'
 
-	export let data;
+	export let data: PageData
 
 	const navigations = {
 		default: [{ name: 'Overview', href: '/dashboard' }],
@@ -11,7 +12,7 @@
 			{ name: 'Customer Orders', href: '/dashboard/customer/order' },
 			{ name: 'Product Editor', href: '/dashboard/product' }
 		]
-	};
+	}
 </script>
 
 <Container heading>

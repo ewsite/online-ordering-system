@@ -1,5 +1,5 @@
-import { writable } from 'svelte/store';
+import { writable } from 'svelte/store'
 
-const steps = writable(1);
+const steps = writable(1)
 
-export { steps };
+export { steps }

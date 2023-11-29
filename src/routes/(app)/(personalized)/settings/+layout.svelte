@@ -1,14 +1,14 @@
 <script>
-	import { Container } from '$lib/layouts';
-	import { SidePanelItem, SidePanelContainer } from '$lib/components';
+	import { Container } from '$lib/layouts'
+	import { SidePanelItem, SidePanelContainer } from '$lib/components'
 
-	export let data;
+	export let data
 	const navigations = {
 		default: [
 			{ name: 'Shipping Address', href: '/settings/address' },
 			{ name: 'Account', href: '/settings/account' }
 		]
-	};
+	}
 </script>
 
 <Container heading>

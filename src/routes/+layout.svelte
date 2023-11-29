@@ -1,10 +1,10 @@
-<script>
-	import { onMount } from 'svelte';
-	import { fade } from 'svelte/transition';
-	import '../app.css';
+<script lang="ts">
+	import { onMount } from 'svelte'
+	import { fade } from 'svelte/transition'
+	import '../app.css'
 
-	let siteLoaded = false;
-	onMount(() => (siteLoaded = true));
+	let siteLoaded = false
+	onMount(() => (siteLoaded = true))
 </script>
 
 {#if siteLoaded}

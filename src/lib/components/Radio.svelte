@@ -1,9 +1,10 @@
 <script>
-	export let name = null;
-	export let items = [];
-	export let group = null;
+	export let name = null
+	export let items = []
+	export let group = null
 
-	$: items = items.filter((item) => 'label' in item && 'id' in item && 'value' in item) || [];
+	$: items =
+		items.filter((item) => 'label' in item && 'id' in item && 'value' in item) || []
 </script>
 
 <div>

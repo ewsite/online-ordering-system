@@ -1,15 +1,18 @@
-<script>
-	export let data;
+<script lang="ts">
+	import type { LayoutServerData } from './$types'
+
+	export let data: LayoutServerData
 </script>
 
 <div class="space-y-4">
-	<h3>Hi, {data.profile.firstName} {data.profile.lastName}!</h3>
-	<hr />
-	<p><b>Profile ID: </b>{data.profile.id}</p>
-	<br />
-
+	{#if data.profile}
+		<h3>Hi, {data.profile.firstName} {data.profile.lastName}!</h3>
+		<hr />
+		<p><b>Profile ID: </b>{data.profile.id}</p>
+		<br />
+	{/if}
 	<div class="box-summary">
-		{#if data?.orders?.length}
+		{#if data.orders?.length}
 			<a class="box-item success" href="/dashboard/order">
 				<h5 class="m-0">Orders</h5>
 				<p>You actually ordered our products to our shop. Thank you!.</p>
@@ -24,8 +27,8 @@
 		<a class="box-item alarming" href="/settings/address">
 			<h5 class="m-0">Shipping Address</h5>
 			<p>
-				Before checkout, you must have at least one shipping address to ship our products to your
-				doorstep.
+				Before checkout, you must have at least one shipping address to ship our products
+				to your doorstep.
 			</p>
 		</a>
 	</div>

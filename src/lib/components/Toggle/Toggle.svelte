@@ -1,12 +1,12 @@
 <script>
-	import { themeColors } from '$lib/config/theme';
-	export let name = null;
-	export let value = null;
-	export let id = null;
-	export let checked;
-	export let color = '';
+	import { themeColors } from '$lib/config/theme'
+	export let name = null
+	export let value = null
+	export let id = null
+	export let checked
+	export let color = ''
 
-	$: color = themeColors.verify(color, true) ? color : themeColors.getDefault();
+	$: color = themeColors.verify(color, true) ? color : themeColors.getDefault()
 </script>
 
 <span>

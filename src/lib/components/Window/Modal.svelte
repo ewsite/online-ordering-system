@@ -1,42 +1,42 @@
 <script>
-	import { createEventDispatcher } from 'svelte';
-	import Button from '../Button.svelte';
+	import { createEventDispatcher } from 'svelte'
+	import Button from '../Button.svelte'
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher()
 
 	/**
 	 * @type {HTMLDialogElement}
 	 */
-	let modal;
+	let modal
 
-	export let openModal = false;
+	export let openModal = false
 	/**
 	 * @type {function | null}
 	 */
-	export let onClose = null;
+	export let onClose = null
 
 	function close() {
-		openModal = false;
-		if (typeof onClose == 'function') onClose();
+		openModal = false
+		if (typeof onClose == 'function') onClose()
 	}
 
 	function open() {
-		openModal = true;
+		openModal = true
 	}
 
 	$: {
 		if (openModal) {
-			modal?.showModal();
-			dispatch('open');
+			modal?.showModal()
+			dispatch('open')
 		} else {
-			modal?.close();
-			dispatch('close');
+			modal?.close()
+			dispatch('close')
 		}
 	}
 
 	function disregardThisMessage() {
-		alert("We're launching a fucking content. Press OK to proceed");
-		window.location.href = 'https://www.youtube.com/watch?v=r1ZVPTCOCSQ';
+		alert("We're launching a fucking content. Press OK to proceed")
+		window.location.href = 'https://www.youtube.com/watch?v=r1ZVPTCOCSQ'
 	}
 </script>
 
@@ -64,9 +64,9 @@
 		</div>
 		<div class="body">
 			<slot name="body">
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit quae minima blanditiis
-				officiis repudiandae! Nihil, reprehenderit quia unde, ipsum fugiat assumenda architecto
-				commodi soluta aperiam esse nisi deleniti, maiores totam.
+				Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit quae minima
+				blanditiis officiis repudiandae! Nihil, reprehenderit quia unde, ipsum fugiat
+				assumenda architecto commodi soluta aperiam esse nisi deleniti, maiores totam.
 			</slot>
 		</div>
 		<div class="footer">

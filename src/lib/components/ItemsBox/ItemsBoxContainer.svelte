@@ -1,10 +1,10 @@
 <script>
-	import { setContext } from 'svelte';
+	import { setContext } from 'svelte'
 
-	export let forceOneRow = false;
-	export let addExtraActions = false;
+	export let forceOneRow = false
+	export let addExtraActions = false
 
-	$: setContext('addExtraActions', addExtraActions);
+	$: setContext('addExtraActions', addExtraActions)
 </script>
 
 <div class="items-box-container" class:wacked={forceOneRow}>

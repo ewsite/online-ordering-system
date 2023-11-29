@@ -1,7 +1,7 @@
 <script>
-	import { getContext } from 'svelte';
-	export let href = '';
-	const toggleDropdown = getContext('toggle');
+	import { getContext } from 'svelte'
+	export let href = ''
+	const toggleDropdown = getContext('toggle')
 </script>
 
 <li>

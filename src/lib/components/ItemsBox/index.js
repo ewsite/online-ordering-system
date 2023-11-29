@@ -1,2 +1,2 @@
-export { default as ItemsBoxItem } from './ItemsBoxItem.svelte';
-export { default as ItemsBoxContainer } from './ItemsBoxContainer.svelte';
+export { default as ItemsBoxItem } from './ItemsBoxItem.svelte'
+export { default as ItemsBoxContainer } from './ItemsBoxContainer.svelte'

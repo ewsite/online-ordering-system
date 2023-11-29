@@ -1,18 +1,16 @@
-<script>
-	import { themeColors } from '$lib/config/theme';
-	/**
-	 * @type {string?}
-	 */
-	export let type = String();
-	export let href = String();
-	export let id = String();
-	export let color = String();
-	export let className = String();
-	export let preventDefault = false;
-	export let formaction = String();
-	export let disabled = false;
+<script lang="ts">
+	import { themeColors } from '$lib/config/theme'
 
-	$: color = themeColors.verify(color, true) ? color : themeColors.getDefault();
+	export let type = String()
+	export let href = String()
+	export let id = String()
+	export let color = String()
+	export let className = String()
+	export let preventDefault = false
+	export let formaction = String()
+	export let disabled = false
+
+	$: color = themeColors.verify(String(color), true) ? color : themeColors.getDefault()
 </script>
 
 {#if type === 'link'}

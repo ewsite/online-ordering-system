@@ -1,14 +1,15 @@
-<script>
-	import { ItemsBoxContainer, ItemsBoxItem } from '$lib/components';
+<script lang="ts">
+	// @ts-nocheck
+	// I need to find a way to add strong types in properties that is Prisma's JSON.
+	// Any bugs that suddenly raised in this layout are unexpected.
+	import { ItemsBoxContainer, ItemsBoxItem } from '$lib/components'
+	import type { Prisma } from '@prisma/client'
 
-	/**
-	 * @type {JsonValue}
-	 */
-	export let products = [];
-	export let orderId = Number();
-	export let from = String();
-	export let status = String();
-	export let hideOrderNumber = false;
+	export let products: Prisma.JsonValue
+	export let orderId = Number()
+	export let from = String()
+	export let status = String()
+	export let hideOrderNumber = false
 
 	const orderStatusOptions = [
 		{ name: 'Preparing for Delivery', value: 'BEGIN_ORDER' },
@@ -16,17 +17,17 @@
 		{ name: 'Shipped', value: 'SHIPPED' },
 		{ name: 'Delievered', value: 'DELIVERED' },
 		{ name: 'Cancelled', value: 'CANCELLED' }
-	];
-	let total = 0;
+	]
+	let total: boolean = 0
 	$: {
-		total = 0;
+		total = 0
 		products.map(({ product, quantity }) => {
-			total += product?.price * quantity;
-			console.log(product?.price, quantity);
-		});
+			total += product?.price * quantity
+			console.log(product?.price, quantity)
+		})
 	}
 
-	$: orderStatus = orderStatusOptions.find(({ value }) => value == status);
+	$: orderStatus = orderStatusOptions.find(({ value }) => value == status)
 </script>
 
 <div class="orders">

@@ -1,25 +1,25 @@
 <script>
-	export let id = String();
-	export let name = String();
-	export let required = false;
-	export let min = 0;
-	export let max = 100;
+	export let id = String()
+	export let name = String()
+	export let required = false
+	export let min = 0
+	export let max = 100
 	/**
 	 * @type {number | null}
 	 */
-	export let value = null;
+	export let value = null
 	/**
 	 *
 	 * @param {Event} event
 	 */
 	function subtract(event) {
-		if (value === null) return;
-		value = value === min ? max : value - 1;
+		if (value === null) return
+		value = value === min ? max : value - 1
 	}
 
 	function add() {
-		if (value === null) return;
-		value = value === max ? min : value + 1;
+		if (value === null) return
+		value = value === max ? min : value + 1
 	}
 </script>
 

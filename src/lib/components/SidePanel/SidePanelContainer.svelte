@@ -1,30 +1,30 @@
 <script>
-	import { setContext } from 'svelte';
-	import { slide } from 'svelte/transition';
+	import { setContext } from 'svelte'
+	import { slide } from 'svelte/transition'
 
-	let innerWidth = Number();
-	let isOpenPanelNav = false;
-	let availableKangguuds = true;
+	let innerWidth = Number()
+	let isOpenPanelNav = false
+	let availableKangguuds = true
 
 	$: {
 		if (innerWidth >= 768) {
-			isOpenPanelNav = true;
-			availableKangguuds = false;
+			isOpenPanelNav = true
+			availableKangguuds = false
 		} else {
-			isOpenPanelNav = false;
-			availableKangguuds = true;
+			isOpenPanelNav = false
+			availableKangguuds = true
 		}
 	}
 
 	function toggleOpenPanelNav() {
-		isOpenPanelNav = !isOpenPanelNav;
+		isOpenPanelNav = !isOpenPanelNav
 	}
 
 	function closeSidePanelNavForItems() {
-		isOpenPanelNav = availableKangguuds ? false : true;
+		isOpenPanelNav = availableKangguuds ? false : true
 	}
 
-	setContext('close', closeSidePanelNavForItems);
+	setContext('close', closeSidePanelNavForItems)
 </script>
 
 <svelte:window bind:innerWidth />
@@ -43,7 +43,11 @@
 							stroke="currentColor"
 							class="w-6 h-6"
 						>
-							<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="M6 18L18 6M6 6l12 12"
+							/>
 						</svg>
 					{:else}
 						<svg

@@ -1,32 +1,32 @@
 <script context="module">
-	import { writable } from 'svelte/store';
+	import { writable } from 'svelte/store'
 
-	const activeDropdown = writable(null);
-	const dropdowns = writable(0);
+	const activeDropdown = writable(null)
+	const dropdowns = writable(0)
 </script>
 
 <script>
-	import { themeColors } from '$lib/config/theme';
-	import { setContext } from 'svelte';
+	import { themeColors } from '$lib/config/theme'
+	import { setContext } from 'svelte'
 
-	const dropdownID = $dropdowns++;
+	const dropdownID = $dropdowns++
 
-	export let color = '';
-	export let open = false;
+	export let color = ''
+	export let open = false
 
 	function toggleDropdown() {
-		open = !open;
+		open = !open
 		if (open) {
-			$activeDropdown = dropdownID;
+			$activeDropdown = dropdownID
 		}
 	}
 
-	setContext('toggle', toggleDropdown);
-	$: color = themeColors.verify(color, true) ? color : themeColors.getDefault();
+	setContext('toggle', toggleDropdown)
+	$: color = themeColors.verify(color, true) ? color : themeColors.getDefault()
 
 	$: {
 		if ($activeDropdown !== dropdownID) {
-			open = false;
+			open = false
 		}
 	}
 </script>
@@ -44,7 +44,11 @@
 			stroke="currentColor"
 			class="w-6 h-6"
 		>
-			<path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+			<path
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+			/>
 		</svg>
 	</button>
 

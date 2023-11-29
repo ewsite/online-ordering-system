@@ -1,13 +1,13 @@
 <script>
-	import { fly } from 'svelte/transition';
+	import { fly } from 'svelte/transition'
 
-	export let enable = false;
+	export let enable = false
 
-	let timeoutHandler;
+	let timeoutHandler
 	$: {
 		if (enable) {
-			clearTimeout(timeoutHandler);
-			timeoutHandler = setTimeout(() => (enable = false), 5000);
+			clearTimeout(timeoutHandler)
+			timeoutHandler = setTimeout(() => (enable = false), 5000)
 		}
 	}
 </script>

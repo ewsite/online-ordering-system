@@ -1,42 +1,35 @@
-<script>
-	import { Button, Modal, Input } from '$lib/components';
-	import { invalidate } from '$app/navigation';
-	import { enhance } from '$app/forms';
-	export let data;
+<script lang="ts">
+	import { Button, Modal, Input } from '$lib/components'
+	import { invalidate } from '$app/navigation'
+	import { enhance } from '$app/forms'
+	import type { SubmitFunction } from './$types'
+	export let data
 
-	let nextTargetPlanet = null;
-	let openAddressModal = false;
+	let nextTargetPlanet: (typeof data.addressList)[number] | null
+	let openAddressModal = false
 
 	function toggleModal() {
-		openAddressModal = !openAddressModal;
+		openAddressModal = !openAddressModal
 	}
 
-	/**
-	 * @param {number} addressId
-	 */
-	function editAddress(addressId) {
-		const info = data?.addressList[addressId];
-		nextTargetPlanet = info;
-		toggleModal();
+	function editAddress(addressId: number) {
+		nextTargetPlanet = data.addressList[addressId]
+		toggleModal()
 	}
 
-	/**
-	 *
-	 * @type {import('@sveltejs/kit').SubmitFunction}
-	 */
-	function addressWorkhorse({ formData }) {
-		if (nextTargetPlanet) formData.set('id', nextTargetPlanet.id);
+	const addressWorkhorse: SubmitFunction = async ({ formData }) => {
+		if (nextTargetPlanet) formData.set('id', nextTargetPlanet.id)
 
 		return async ({ result }) => {
-			nextTargetPlanet = null;
+			nextTargetPlanet = null
 			if (result.type == 'failure') {
-				console.error('Oops');
-				return;
+				console.error('Oops')
+				return
 			}
 
-			invalidate('settings-address:load');
-			toggleModal();
-		};
+			invalidate('settings-address:load')
+			toggleModal()
+		}
 	}
 </script>
 
@@ -84,7 +77,12 @@
 	</svelte:fragment>
 	<svelte:fragment slot="body">
 		{#if nextTargetPlanet}
-			<form action="?/edit" method="POST" class="space-y-4 px-2" use:enhance={addressWorkhorse}>
+			<form
+				action="?/edit"
+				method="POST"
+				class="space-y-4 px-2"
+				use:enhance={addressWorkhorse}
+			>
 				<div class="flex md:flex-row flex-col md:space-x-2 space-y-2 md:space-y-0">
 					<Input
 						type="text"
@@ -120,8 +118,11 @@
 						name="barangay"
 						placeholder="Barangay">Barangay</Input
 					>
-					<Input type="text" bind:value={nextTargetPlanet.city} name="city" placeholder="City"
-						>City</Input
+					<Input
+						type="text"
+						bind:value={nextTargetPlanet.city}
+						name="city"
+						placeholder="City">City</Input
 					>
 					<Input
 						type="text"
@@ -136,7 +137,12 @@
 				</div>
 			</form>
 		{:else}
-			<form action="?/add" method="POST" class="space-y-4 px-2" use:enhance={addressWorkhorse}>
+			<form
+				action="?/add"
+				method="POST"
+				class="space-y-4 px-2"
+				use:enhance={addressWorkhorse}
+			>
 				<div class="flex md:flex-row flex-col md:space-x-2 space-y-2 md:space-y-0">
 					<Input type="text" name="firstName" placeholder="First Name">First Name</Input>
 					<Input type="text" name="lastName" placeholder="Last Name">Last Name</Input>

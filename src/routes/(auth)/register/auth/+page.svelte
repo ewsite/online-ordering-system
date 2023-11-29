@@ -1,65 +1,61 @@
-<script>
-	import { enhance } from '$app/forms';
-	import { Button, Input } from '$lib/components';
-	import { getContext } from 'svelte';
-	import { fade } from 'svelte/transition';
+<script lang="ts">
+	import { enhance } from '$app/forms'
+	import { Button, Input } from '$lib/components'
+	import { getContext } from 'svelte'
+	import { fade } from 'svelte/transition'
+	import type { Writable } from 'svelte/store'
+	import type { SubmitFunction } from '@sveltejs/kit'
 
-	const steps = getContext('steps');
-	const errorMessage = getContext('errorMessage');
-	/**
-	 * @type {import('svelte/store').Writable<Map<any, any>>}
-	 */
-	const _data = getContext('data');
+	const steps: Writable<number> = getContext('steps')
+	const errorMessage: Writable<string> = getContext('errorMessage')
+	const _data: Writable<Map<any, any>> = getContext('data')
 
-	/**
-	 * @type {String}
-	 */
-	let username = $_data.get('username');
+	let username = $_data.get('username') as string
 
-	/**
-	 * @type {String}
-	 */
-	let password = $_data.get('password');
+	let password = $_data.get('password') as string
 
-	let processing = false;
-	/**
-	 *
-	 * @type {import('@sveltejs/kit').SubmitFunction}
-	 */
-	function check({ cancel }) {
-		processing = true;
+	let processing = false
+
+	const check: SubmitFunction = async ({ cancel }) => {
+		processing = true
 		if (!password?.length || !username?.length) {
-			$errorMessage = 'Please fill up the username or password.';
-			processing = false;
-			cancel();
+			$errorMessage = 'Please fill up the username or password.'
+			processing = false
+			cancel()
 		}
 
 		if (password?.length < 6) {
-			$errorMessage = 'Password must at least 8 characters or more';
-			processing = false;
-			cancel();
+			$errorMessage = 'Password must at least 8 characters or more'
+			processing = false
+			cancel()
 		}
 		return async ({ result }) => {
-			processing = false;
+			processing = false
 			if (result.type == 'failure') {
-				$errorMessage = result.data?.message;
-				return;
+				$errorMessage = result.data?.message
+				return
 			}
 
-			$_data.set('username', username);
-			$_data.set('password', password);
-			++$steps;
-		};
+			$_data.set('username', username)
+			$_data.set('password', password)
+			++$steps
+		}
 	}
 </script>
 
 <form action="?/checkUsername" method="POST" use:enhance={check}>
 	<div class="flex flex-col space-y-4">
 		<p>Create a username and password.</p>
-		<Input name="username" type="text" bind:value={username} required placeholder="Username"
-			>Username</Input
+		<Input
+			name="username"
+			type="text"
+			bind:value={username}
+			required
+			placeholder="Username">Username</Input
 		>
-		<Input type="password" bind:value={password} required placeholder="Password">Password</Input>
+		<Input type="password" bind:value={password} required placeholder="Password"
+			>Password</Input
+		>
 		<Button type="submit">
 			<div class="flex space-x-4 justify-center">
 				{#if processing}

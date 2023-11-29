@@ -1,17 +1,17 @@
-<script>
-	import { Container } from '$lib/layouts';
-	import { Button, ItemsBoxContainer, ItemsBoxItem } from '$lib/components';
-	import { invalidate } from '$app/navigation';
-	import { enhance } from '$app/forms';
-
-	export let data;
-	let total = 0;
+<script lang="ts">
+	import { Container } from '$lib/layouts'
+	import { Button, ItemsBoxContainer, ItemsBoxItem } from '$lib/components'
+	import { invalidate } from '$app/navigation'
+	import { enhance } from '$app/forms'
+	import type { PageData } from './$types'
+	export let data: PageData
+	let total = 0
 
 	$: {
-		total = 0;
+		total = 0
 		if (data.cartItems) {
 			for (const cart of data?.cartItems) {
-				total += Number(cart?.product?.price) * Number(cart?.quantity);
+				total += Number(cart?.product?.price) * Number(cart?.quantity)
 			}
 		}
 	}
@@ -27,8 +27,11 @@
 			<div class="cart-header-actions">
 				<b id="cart-price">Total: Php {total}.00</b>
 				<span>
-					<Button color="primary" type="link" href="/checkout" disabled={!data?.cartItems?.length}
-						>Checkout</Button
+					<Button
+						color="primary"
+						type="link"
+						href="/checkout"
+						disabled={!data?.cartItems?.length}>Checkout</Button
 					>
 				</span>
 			</div>
@@ -39,11 +42,11 @@
 					<form
 						method="POST"
 						use:enhance={({ formData }) => {
-							formData.set('cartId', id);
+							formData.set('cartId', id)
 
 							return async () => {
-								invalidate('shop-process:reload');
-							};
+								invalidate('shop-process:reload')
+							}
 						}}
 					>
 						<ItemsBoxItem>
@@ -60,10 +63,13 @@
 							</svelte:fragment>
 							<svelte:fragment slot="actions">
 								<div class="flex flex-col space-y-2">
-									<Button type="link" color="error-invert" href={`/products/${product?.url_name}`}
-										>Edit</Button
+									<Button
+										type="link"
+										color="error-invert"
+										href={`/products/${product?.url_name}`}>Edit</Button
 									>
-									<Button type="submit" formaction="?/remove" color="error">Remove</Button>
+									<Button type="submit" formaction="?/remove" color="error">Remove</Button
+									>
 								</div>
 							</svelte:fragment>
 						</ItemsBoxItem>

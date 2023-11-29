@@ -1,6 +1,6 @@
-<script>
-	import { invalidateAll } from '$app/navigation';
-	invalidateAll();
+<script lang="ts">
+	import { invalidateAll } from '$app/navigation'
+	invalidateAll()
 </script>
 
 <svelte:head>

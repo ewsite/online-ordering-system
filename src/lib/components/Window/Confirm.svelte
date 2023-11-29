@@ -1,37 +1,37 @@
 <script>
-	import { createEventDispatcher } from 'svelte';
-	import Button from '../Button.svelte';
+	import { createEventDispatcher } from 'svelte'
+	import Button from '../Button.svelte'
 
-	const dispatch = createEventDispatcher();
-	let confirm;
-	export let openConfirm = false;
+	const dispatch = createEventDispatcher()
+	let confirm
+	export let openConfirm = false
 
 	function close() {
-		openConfirm = false;
+		openConfirm = false
 	}
 
 	function open() {
-		openConfirm = true;
+		openConfirm = true
 	}
 
 	function triggerAccept() {
-		dispatch('accept');
-		dispatch('confirm', { confirm: true });
+		dispatch('accept')
+		dispatch('confirm', { confirm: true })
 	}
 
 	function triggerDeny() {
-		dispatch('deny');
-		dispatch('confirm', { confirm: false });
+		dispatch('deny')
+		dispatch('confirm', { confirm: false })
 	}
 	$: {
-		if (openConfirm) confirm?.showModal();
-		else confirm?.close();
+		if (openConfirm) confirm?.showModal()
+		else confirm?.close()
 	}
 
 	// Extra piece of code, it won't affect or benefit to the core functionality of this component.
 	function disregardThisMessage() {
-		alert("We're launching a fucking content. Press OK to proceed");
-		window.location.href = 'https://www.youtube.com/watch?v=r1ZVPTCOCSQ';
+		alert("We're launching a fucking content. Press OK to proceed")
+		window.location.href = 'https://www.youtube.com/watch?v=r1ZVPTCOCSQ'
 	}
 </script>
 

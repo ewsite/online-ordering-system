@@ -1,29 +1,23 @@
-<script>
-	import { Button, Input } from '$lib/components';
-	import { getContext } from 'svelte';
-	import { writable } from 'svelte/store';
+<script lang="ts">
+	import { Button, Input } from '$lib/components'
+	import { getContext } from 'svelte'
+	import type { Writable } from 'svelte/store'
 
-	writable;
-
-	const steps = getContext('steps');
-	const errorMessage = getContext('errorMessage');
-	/**
-	 * @type {import('svelte/store').Writable<Map<any, any>>}
-	 */
-	const _data = getContext('data');
-
+	const steps: Writable<number> = getContext('steps')
+	const errorMessage: Writable<string> = getContext('errorMessage')
+	const _data: Writable<Map<any, any>> = getContext('data')
 	/**
 	 * @type {Number}
 	 */
-	let age = $_data.get('age');
+	let age = $_data.get('age') as number
 
 	function check() {
 		if (age < 18) {
-			$errorMessage = 'Age under 18 is not allowed to use this service.';
-			return;
+			$errorMessage = 'Age under 18 is not allowed to use this service.'
+			return
 		}
-		$_data.set('age', age);
-		$steps++;
+		$_data.set('age', age)
+		$steps++
 	}
 </script>
 

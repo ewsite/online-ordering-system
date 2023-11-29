@@ -2,15 +2,15 @@
 	/**
 	 * @type {string | number | null}
 	 */
-	export let value = null;
+	export let value = null
 
-	export let hiddenLabel = false;
-	export let id = String();
-	export let name = String();
-	export let placeholder = String();
-	export let notes = String();
-	export let type = String();
-	export let required = false;
+	export let hiddenLabel = false
+	export let id = String()
+	export let name = String()
+	export let placeholder = String()
+	export let notes = String()
+	export let type = String()
+	export let required = false
 </script>
 
 <span>

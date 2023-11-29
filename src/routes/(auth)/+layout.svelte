@@ -1,13 +1,13 @@
 <script>
-	import { fly, fade } from 'svelte/transition';
-	import { navigating } from '$app/stores';
-	import { onDestroy } from 'svelte';
-	import redirectStores from '$lib/stores/redirectStores.js';
-	export let data;
+	import { fly, fade } from 'svelte/transition'
+	import { navigating } from '$app/stores'
+	import { onDestroy } from 'svelte'
+	import redirectStores from '$lib/stores/redirectStores'
+	export let data
 
 	onDestroy(() => {
-		$redirectStores = null;
-	});
+		$redirectStores = String()
+	})
 </script>
 
 <div class="auth-container">
@@ -53,8 +53,12 @@
 	}
 
 	.auth-sidebg {
-		background: rgb(190,0,154);
-		background: linear-gradient(121deg, rgba(190,0,154,1) 0%, rgba(255,0,86,1) 100%);
+		background: rgb(190, 0, 154);
+		background: linear-gradient(
+			121deg,
+			rgba(190, 0, 154, 1) 0%,
+			rgba(255, 0, 86, 1) 100%
+		);
 		@apply md:col-span-6 rounded-md;
 	}
 

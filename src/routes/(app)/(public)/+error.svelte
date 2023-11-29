@@ -1,6 +1,6 @@
-<script>
-	import { Button } from '$lib/components';
-	import { Container } from '$lib/layouts';
+<script lang="ts">
+	import { Button } from '$lib/components'
+	import { Container } from '$lib/layouts'
 </script>
 
 <Container itemsToCenter={true}>

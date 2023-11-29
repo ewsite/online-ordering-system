@@ -1,29 +1,55 @@
-<script>
-	import { enhance } from '$app/forms';
-	import { Button, Select } from '$lib/components';
-	import { Container } from '$lib/layouts';
-	import { goto } from '$app/navigation';
-	import Orders from '$lib/layouts/Orders.svelte';
+<script lang="ts">
+	import { enhance } from '$app/forms'
+	import { Button, Select } from '$lib/components'
+	import { Container } from '$lib/layouts'
+	import { goto } from '$app/navigation'
+	import Orders from '$lib/layouts/Orders.svelte'
+	import type { PageData, SubmitFunction } from './$types'
 
-	export let data;
-	let total = 0;
-	let selectedShippingAddress = String();
-	let errorMessage = String();
+	export let data: PageData
+
+	let total = 0
+	let selectedShippingAddress: string
+	let errorMessage: string
 	$: {
-		total = 0;
-		if (data?.cartItems !== undefined || data.cartItems) {
-			for (const cart of data?.cartItems) {
-				total += Number(cart?.product?.price) * Number(cart?.quantity);
+		total = 0
+		if (data?.cartItems?.length) {
+			for (const cart of data.cartItems) {
+				total += Number(cart?.product?.price) * Number(cart?.quantity)
 			}
 		}
 	}
-	const paymentMethods = [{ name: 'Cash on Delivery', value: 'cash' }];
+	const paymentMethods = [{ name: 'Cash on Delivery', value: 'cash' }]
 
-	/**
-	 * @param {string} addressId
-	 */
-	function setSelectedShippingAddress(addressId) {
-		selectedShippingAddress = addressId;
+	function setSelectedShippingAddress(addressId: typeof selectedShippingAddress) {
+		selectedShippingAddress = addressId
+	}
+
+	const checkout: SubmitFunction = async ({ formData, cancel }) => {
+		if (!selectedShippingAddress) {
+			errorMessage = 'Please select Shipping Address.'
+			cancel()
+			return
+		} else if (!formData.get('paymentMethod')) {
+			errorMessage = 'Select Payment Method.'
+			cancel()
+			return
+		}
+		formData.set('shippingInfoId', selectedShippingAddress)
+		if (data.autoCheckout && data?.cartItems) {
+			const cartItems = data?.cartItems[0] ?? null
+			formData.set('productId', String(cartItems?.product?.id))
+			formData.set('quantity', String(cartItems?.quantity))
+		}
+
+		return async ({ result }) => {
+			if (result.type == 'failure') {
+				console.error(result.data?.body)
+				return
+			}
+
+			goto('/dashboard/order')
+		}
 	}
 </script>
 
@@ -35,7 +61,7 @@
 		<div class="checkout-container">
 			<div class="checkout-form space-y-4">
 				<h3>{data.autoCheckout ? 'Auto-Checkout' : 'Checkout'}</h3>
-				{#if errorMessage.length}
+				{#if errorMessage?.length}
 					<div class="pb-4">
 						<div class="rounded bg-red-600 text-slate-50 px-4 py-3">
 							<b>{errorMessage}</b>
@@ -44,8 +70,8 @@
 				{/if}
 				<b>Shipping Books</b>
 				<div class="address-box">
-					{#if data?.addressList?.length}
-						{#each data?.addressList as address, i}
+					{#if data.addressList?.length}
+						{#each data.addressList as address, i}
 							<button
 								class="address-box-item"
 								class:selected={selectedShippingAddress == address.id}
@@ -54,41 +80,18 @@
 							>
 								<b>{address.firstName} {address.lastName}</b>
 								<p>
-									{address.unitFloor ?? ''}
+									{String(address.unitFloor)}
 									{address.streetBldgName}, {address.barangay}, {address.city}, {address.province}
 								</p>
 							</button>
 						{/each}
 					{:else}
-						<a class="address-box-item" href="/settings/address"> Set up your address first. </a>
+						<a class="address-box-item" href="/settings/address">
+							Set up your address first.
+						</a>
 					{/if}
 				</div>
-				<form
-					method="POST"
-					class="space-y-4"
-					use:enhance={({ formData, cancel }) => {
-						if (!selectedShippingAddress) {
-							errorMessage = 'Please select Shipping Address.';
-							cancel();
-							return;
-						} else if (!formData.get('paymentMethod')) {
-							errorMessage = 'Select Payment Method.';
-							cancel();
-							return;
-						}
-						formData.set('shippingInfoId', selectedShippingAddress);
-						if (data?.autoCheckout) formData.set('productId', data?.cartItems[0]?.product?.id);
-
-						return async ({ result }) => {
-							if (result.type == 'failure') {
-								console.error(result.data?.body);
-								return;
-							}
-
-							goto('/dashboard/order');
-						};
-					}}
-				>
+				<form method="POST" class="space-y-4" use:enhance={checkout}>
 					<div>
 						<Select
 							name="paymentMethod"
@@ -122,8 +125,10 @@
 	</Container>
 {:else}
 	<Container itemsToCenter={true}>
-		<h3>You don't have items in the cart.</h3>
-		<Button type="link" href="/shop">Shop Now</Button>
+		<div class="">
+			<h3>You don't have items in the cart.</h3>
+			<Button type="link" href="/shop">Shop Now</Button>
+		</div>
 	</Container>
 {/if}
 

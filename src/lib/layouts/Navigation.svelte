@@ -1,38 +1,33 @@
-<script>
-	import { fly, slide } from 'svelte/transition';
-	import { Button } from '../components';
-	import { navigating } from '$app/stores';
-	/**
-	 * @type {import('$lib/data/themeMode').default}
-	 */
-	export let themeModeToggler;
+<script lang="ts">
+	import { fly, slide } from 'svelte/transition'
+	import { Button } from '../components'
+	import { navigating } from '$app/stores'
+	import type themeMode from '$lib/data/themeMode'
 
-	/**
-	 * @type {App.Locals}
-	 */
-	export let userInfo;
+	export let themeModeToggler: typeof themeMode
+	export let userInfo: App.Locals
 	export let navigations = [
 		{ name: 'Home', href: '/' },
 		{ name: 'Shop', href: '/shop' },
 		{ name: 'Cart', href: '/cart' }
-	];
+	]
 
-	let openSidebar = false;
-	let openQuickUserMenu = false;
+	let openSidebar: boolean = false
+	let openQuickUserMenu: boolean = false
 
-	function navigationToggle() {
-		openQuickUserMenu = false;
-		openSidebar = !openSidebar;
+	function navigationToggle(): void {
+		openQuickUserMenu = false
+		openSidebar = !openSidebar
 	}
 
-	function quickUserMenuToggle() {
-		openSidebar = false;
-		openQuickUserMenu = !openQuickUserMenu;
+	function quickUserMenuToggle(): void {
+		openSidebar = false
+		openQuickUserMenu = !openQuickUserMenu
 	}
 
 	$: {
-		$navigating;
-		openQuickUserMenu = false;
+		$navigating
+		openQuickUserMenu = false
 	}
 </script>
 
@@ -49,7 +44,11 @@
 						stroke="currentColor"
 						class="w-6 h-6"
 					>
-						<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="M6 18L18 6M6 6l12 12"
+						/>
 					</svg>
 				{:else}
 					<svg
@@ -60,7 +59,11 @@
 						stroke="currentColor"
 						class="w-6 h-6"
 					>
-						<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5" />
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="M3.75 9h16.5m-16.5 6.75h16.5"
+						/>
 					</svg>
 				{/if}
 			</button>
@@ -197,6 +200,9 @@
 	.thememode-toggle {
 		@apply flex
         items-center;
+	}
+	.thememode-toggle {
+		@apply space-x-2;
 	}
 	.toggle {
 		@apply md:hidden;

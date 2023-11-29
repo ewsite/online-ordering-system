@@ -1,20 +1,21 @@
-<script>
-	import { Orders } from '$lib/layouts';
-	import { enhance } from '$app/forms';
-	import { onMount } from 'svelte';
-	import { invalidate } from '$app/navigation';
+<script lang="ts">
+	import { Orders } from '$lib/layouts'
+	import { enhance } from '$app/forms'
+	import { onMount } from 'svelte'
+	import { invalidate } from '$app/navigation'
 
-	export let data;
+	const RELOAD_DURATION = 5000
+	export let data
 	onMount(async () => {
-		await invalidate('dashboard:reload');
-		setInterval(async () => await invalidate('dashboard:reload'), 5000);
-	});
+		await invalidate('dashboard:reload')
+		setInterval(async () => await invalidate('dashboard:reload'), RELOAD_DURATION)
+	})
 </script>
 
 <h3>My Orders</h3>
 <div class="cart-container">
 	{#if data?.orders?.length}
-		{#each data?.orders as { orderStatus, products, id }}
+		{#each data.orders as { orderStatus, products, id }}
 			<div class="cart-item">
 				<form method="POST" use:enhance>
 					<Orders status={orderStatus} {products} orderId={id} />

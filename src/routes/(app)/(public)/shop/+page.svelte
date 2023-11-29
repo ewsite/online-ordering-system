@@ -1,6 +1,8 @@
-<script>
-	import { Container } from '$lib/layouts';
-	export let data;
+<script lang="ts">
+	import { Container } from '$lib/layouts'
+	import type { PageData } from './$types'
+
+	export let data: PageData
 </script>
 
 <svlete:head>
@@ -20,7 +22,10 @@
 					href={`products/${product?.url_name}`}
 				>
 					<div class="relative aspect-square overflow-hidden">
-						<img src={`/uploads/products/${product.url_name}?size=md`} alt={product?.name} />
+						<img
+							src={`/uploads/products/${product.url_name}?size=md`}
+							alt={product?.name}
+						/>
 					</div>
 					<div class="">
 						<b>{product?.name}</b>

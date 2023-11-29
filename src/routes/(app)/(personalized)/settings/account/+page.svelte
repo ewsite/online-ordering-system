@@ -1,5 +1,5 @@
 <script>
-	import { Container } from '$lib/layouts';
+	import { Container } from '$lib/layouts'
 </script>
 
 <Container itemsToCenter={true} heading={true}>

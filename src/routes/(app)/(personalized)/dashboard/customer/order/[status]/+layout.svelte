@@ -1,30 +1,29 @@
-<script>
-	import { Button } from '$lib/components';
-	import { fly } from 'svelte/transition';
+<script lang="ts">
+	import { Button } from '$lib/components'
+	import { fly } from 'svelte/transition'
+	import type { PageData } from './$types'
+	import { $Enums as Enum } from '@prisma/client'
+	let title: String
 
-	/**
-	 * @type {string}
-	 */
-	let title;
+	export let data: PageData
 
-	export let data;
-	$: switch (data.selectedStatus) {
-		case 'await':
-			title = 'Awaiting Orders';
-			break;
-		case 'cancelled':
-			title = 'Cancelled Orders';
-			break;
-		case 'delivered':
-			title = 'Delivered Orders';
-			break;
+	$: switch (data.selectedStatus.toUpperCase()) {
+		case Enum.OrderStatus.BEGIN_ORDER:
+			title = 'Awaiting Orders'
+			break
+		case Enum.OrderStatus.CANCELLED:
+			title = 'Cancelled Orders'
+			break
+		case Enum.OrderStatus.DELIVERED:
+			title = 'Delivered Orders'
+			break
 	}
 
 	const navigationTabs = [
-		{ name: 'Await', href: '/dashboard/customer/order/await' },
+		{ name: 'Await', href: '/dashboard/customer/order/begin_order' },
 		{ name: 'Cancelled', href: '/dashboard/customer/order/cancelled' },
 		{ name: 'Delivered', href: '/dashboard/customer/order/delivered' }
-	];
+	]
 </script>
 
 <h3>{title}</h3>
