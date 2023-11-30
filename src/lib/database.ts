@@ -6,15 +6,9 @@ import { configDotenv } from 'dotenv'
 configDotenv()
 
 const database: PrismaClient = new PrismaClient({
-	'errorFormat': {
-		
-	}
+	'errorFormat': 'pretty'
 })
 
-
-database.$on('error' => {
-
-})
 async function initialize(): Promise<boolean> {
 	try {
 		// Delete all data from all tables.
