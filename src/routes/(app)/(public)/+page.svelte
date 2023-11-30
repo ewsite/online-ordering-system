@@ -9,7 +9,7 @@
 <Container
 	itemsToCenter
 	heading
-	style="		background: rgb(190,0,154);
+	style="
 	background: linear-gradient(121deg, rgba(190,0,154,1) 0%, rgba(255,0,86,1) 100%);"
 >
 	<div class="flex flex-col items-center">

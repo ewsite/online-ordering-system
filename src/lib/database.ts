@@ -6,7 +6,7 @@ import { configDotenv } from 'dotenv'
 configDotenv()
 
 const database: PrismaClient = new PrismaClient({
-	'errorFormat': 'pretty'
+	errorFormat: 'pretty'
 })
 
 async function initialize(): Promise<boolean> {

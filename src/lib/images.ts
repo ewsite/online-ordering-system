@@ -40,7 +40,7 @@ class images {
 
 		return true
 	}
-	
+
 	async save(path: string, filename: string): Promise<boolean> {
 		const basePath: string = 'uploads/'
 		const targetPath: string = `${basePath}${path}${path?.length ? '/' : ''}`
