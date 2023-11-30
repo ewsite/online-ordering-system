@@ -8,6 +8,7 @@ type OutputResizedBuffers = {
 	medium: Buffer | null
 	small: Buffer | null
 }
+
 class images {
 	instance: sharp.Sharp
 	resizedBuffers: OutputResizedBuffers
@@ -39,22 +40,14 @@ class images {
 
 		return true
 	}
-
-	/**
-	 *
-	 * @param {string} path
-	 * @param {string} filename
-	 */
+	
 	async save(path: string, filename: string): Promise<boolean> {
-		const basePath = 'uploads/'
+		const basePath: string = 'uploads/'
+		const targetPath: string = `${basePath}${path}${path?.length ? '/' : ''}`
 		const filenames = {
-			original: `${basePath}${path}${
-				path?.length ? '/' : ''
-			}${filename}.${IMG_EXTENSION}`,
-			medium: `${basePath}${path}${
-				path?.length ? '/' : ''
-			}${filename}-md.${IMG_EXTENSION}`,
-			small: `${basePath}${path}${path?.length ? '/' : ''}${filename}-sm.${IMG_EXTENSION}`
+			original: `${targetPath}${filename}.${IMG_EXTENSION}`,
+			medium: `${targetPath}${filename}-md.${IMG_EXTENSION}`,
+			small: `${targetPath}${path?.length ? '/' : ''}${filename}-sm.${IMG_EXTENSION}`
 		}
 		if (
 			!this.resizedBuffers.origin ||

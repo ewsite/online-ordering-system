@@ -1,5 +1,6 @@
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import type { PrismaClient } from '@prisma/client'
+import type { TypeError } from './types'
 
 export type ShippingAddressInfo = {
 	firstName: string
@@ -104,7 +105,7 @@ class address {
 		return true
 	}
 }
-const ERROR = {
+const ERROR: TypeError = {
 	P2002: {
 		code: 'CART_ALREADY_EXISTS',
 		message: 'This cart already exists to your account'
