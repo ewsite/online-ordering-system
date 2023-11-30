@@ -68,7 +68,7 @@
 				{/if}
 			</button>
 			<a href="/" class="flex space-x-2 items-center">
-				<img src="/images/favicon_origin.png" class="h-8 aspect-square" alt="" />
+				<img src="/favicon-192x192.png" class="h-8 aspect-square" alt="" />
 				<b>Vape</b>
 			</a>
 		</div>
