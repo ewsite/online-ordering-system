@@ -19,7 +19,7 @@ export type SetOrderArgs = {
 class order {
 	constructor(public db: PrismaClient) {}
 
-	async checkout(info: OrderInfo) {
+	async checkout(info: OrderInfo): Promise<boolean> {
 		let cartInfoProps: object[]
 		try {
 			const productSelect = {
@@ -82,6 +82,7 @@ class order {
 			console.error(err)
 			throw ERROR.MXXX
 		}
+		return true
 	}
 	async setOrderStatus(args: SetOrderArgs): Promise<boolean> {
 		try {
