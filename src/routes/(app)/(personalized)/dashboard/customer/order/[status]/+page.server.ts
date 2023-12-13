@@ -1,27 +1,21 @@
 import order, { type SetOrderArgs } from '$lib/order'
 import { database } from '$lib/database'
 import { error, fail } from '@sveltejs/kit'
-import type { PageServerLoad } from './$types.js'
+import type { Actions, PageServerLoad } from './$types.js'
 import type { $Enums } from '@prisma/client'
 
 const orderInstance = new order(database)
 
 export const load: PageServerLoad = async ({ params, depends }) => {
 	depends('orders:reload')
-
 	const orderStatus = params.status.toUpperCase() as $Enums.OrderStatus
-
 	try {
-		return {
-			orders: await orderInstance.getAllFromTheUsers(orderStatus),
-			selectedStatus: orderStatus
-		}
+		return { orders: await orderInstance.getAllFromTheUsers(orderStatus) }
 	} catch (err) {
 		throw error(400, 'Oops')
 	}
 }
-/** @type {import('./$types').Actions} */
-export const actions = {
+export const actions: Actions = {
 	setOrderStatus: async ({ request }) => {
 		const data = Object.fromEntries(await request.formData())
 
