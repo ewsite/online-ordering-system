@@ -58,7 +58,7 @@
 	button {
 		@apply px-4
         py-2
-        rounded-full
+        rounded-lg
         font-bold
         uppercase
         transition
