@@ -17,12 +17,6 @@
 		{ name: 'Log Out', href: '/logout' }
 	]
 
-	const userActionsLists = [
-		{ name: 'Dashboard', href: '/dashboard' },
-		{ name: 'Settings', href: '/settings' },
-		{ name: 'Log Out', href: '/logout' }
-	]
-
 	let openSidebar: boolean = false
 	let isOpenUserActions: boolean = true
 
@@ -76,7 +70,7 @@
 				</a>
 			{/each}
 		</div>
-		<div class="header-quickaccess space-x-4">
+		<div class="quickaccess space-x-4">
 			<button class="thememode-toggle" on:click={() => themeModeToggler.toggle()}>
 				{#if $themeModeToggler == 'light'}
 					<svg
@@ -236,7 +230,7 @@
 					<ul class="aua-nav" transition:fade={{ duration: 150 }}>
 						{#each userActionsLists as { name, href }}
 							<li class="aua-nav-item">
-								<a {href} on:click={userActionsToggle}>{name}</a>
+								<a {href} on:click={navigationToggle}>{name}</a>
 							</li>
 						{/each}
 					</ul>
@@ -290,7 +284,7 @@
 		py-2;
 	}
 
-	.header-menu-nav {
+	.menu-nav {
 		@apply bg-opacity-10 backdrop-blur-md dark:bg-opacity-10 px-3 py-2 rounded bg-slate-100 hover:bg-slate-200 dark:hover:bg-neutral-700 transition dark:bg-neutral-800 font-bold w-24 text-center;
 	}
 	.quickaccess {
@@ -365,11 +359,11 @@
 		@apply fixed h-screen w-screen top-0 left-0 backdrop-blur-md;
 	}
 	.aua-nav {
-		@apply rounded list-none mb-4 p-0 bg-slate-50 absolute bottom-full font-bold w-full;
+		@apply rounded list-none mb-4 p-0 bg-slate-50 dark:bg-neutral-800 absolute bottom-full font-bold w-full;
 	}
 
 	.aua-nav-item {
-		@apply w-full bg-neutral-800;
+		@apply w-full;
 	}
 	.aua-nav-item > a {
 		@apply w-full h-full block;
