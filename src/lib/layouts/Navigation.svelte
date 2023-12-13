@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fly, slide } from 'svelte/transition'
+	import { fade, fly, slide } from 'svelte/transition'
 	import { Button } from '../components'
 	import { navigating } from '$app/stores'
 	import type themeMode from '$lib/data/themeMode'
@@ -12,74 +12,66 @@
 		{ name: 'Cart', href: '/cart' }
 	]
 
+	const userActionsLists = [
+		{ name: 'Dashboard', href: '/dashboard' },
+		{ name: 'Settings', href: '/settings' },
+		{ name: 'Log Out', href: '/logout' }
+	]
+
 	let openSidebar: boolean = false
-	let openQuickUserMenu: boolean = false
+	let isOpenUserActions: boolean = true
 
 	function navigationToggle(): void {
-		openQuickUserMenu = false
+		isOpenUserActions = false
 		openSidebar = !openSidebar
 	}
 
-	function quickUserMenuToggle(): void {
-		openSidebar = false
-		openQuickUserMenu = !openQuickUserMenu
+	function forceCloseUserActions(): void {
+		isOpenUserActions = false
+	}
+
+	function userActionsToggle(): void {
+		isOpenUserActions = !isOpenUserActions
 	}
 
 	$: {
 		$navigating
-		openQuickUserMenu = false
+		isOpenUserActions = false
 	}
 </script>
 
 <header>
-	<div class="header-wrapper" role="navigation">
-		<div class="header-logo">
+	<nav>
+		<div class="icon">
 			<button class="toggle" on:click={navigationToggle}>
-				{#if openSidebar}
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke-width="1.5"
-						stroke="currentColor"
-						class="w-6 h-6"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							d="M6 18L18 6M6 6l12 12"
-						/>
-					</svg>
-				{:else}
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke-width="1.5"
-						stroke="currentColor"
-						class="w-6 h-6"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							d="M3.75 9h16.5m-16.5 6.75h16.5"
-						/>
-					</svg>
-				{/if}
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke-width="1.5"
+					stroke="currentColor"
+					class="w-6 h-6"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M3.75 9h16.5m-16.5 6.75h16.5"
+					/>
+				</svg>
 			</button>
 			<a href="/" class="flex space-x-2 items-center">
 				<img src="/favicon-192x192.png" class="h-8 aspect-square" alt="" />
 				<b>Vape</b>
 			</a>
 		</div>
-		<div class="header-menu" role="menu">
+		<div class="menu" role="menu">
 			{#each navigations as { href, name }}
-				<a class="header-menu-nav" {href}>
+				<a class="menu-nav" {href}>
 					{name}
 				</a>
 			{/each}
 		</div>
-		<div class="header-quickaccess space-x-4">
+		<div class="quickaccess space-x-4">
 			<button class="thememode-toggle" on:click={() => themeModeToggler.toggle()}>
 				{#if $themeModeToggler == 'light'}
 					<svg
@@ -116,10 +108,86 @@
 				{/if}
 			</button>
 
-			<div>
+			<div class="user-actions">
 				{#if userInfo?.loggedIn}
-					<div class="quick-user">
-						<Button color="primary-invert" on:click={quickUserMenuToggle}>
+					<Button color="primary-invert" on:click={userActionsToggle}>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke-width="2.5"
+							stroke="currentColor"
+							class="w-6 h-6"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+							/>
+						</svg>
+					</Button>
+					{#if isOpenUserActions}
+						<ul class="ua-nav" transition:slide>
+							<li class="ua-nav-item">
+								<h6 class="m-0">{userInfo?.username}</h6>
+							</li>
+							<li class="ua-nav-item">
+								<b>Quick Actions</b>
+							</li>
+							{#each userActionsLists as { name, href }}
+								<li class="ua-nav-item">
+									<a {href}>{name}</a>
+								</li>
+							{/each}
+						</ul>
+					{/if}
+				{:else}
+					<Button color="primary-invert" type="link" href="/login">
+						<b>Log In</b>
+					</Button>
+				{/if}
+			</div>
+		</div>
+	</nav>
+</header>
+{#if openSidebar}
+	<aside in:fly={{ x: -100 }} out:fly={{ x: -100 }}>
+		<div class="aside-header">
+			<button on:click={() => (openSidebar = false)}>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke-width="1.5"
+					stroke="currentColor"
+					class="w-6 h-6"
+				>
+					<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+				</svg>
+			</button>
+			<h5 class="m-0">Menu</h5>
+		</div>
+		<div class="aside-body" role="navigation">
+			<span class="aside-menu" role="menu">
+				{#each navigations as { name, href }}
+					<a role="menuitem" {href} on:click={navigationToggle}>
+						{name}
+					</a>
+				{/each}
+			</span>
+		</div>
+		<div class="aside-footer">
+			{#if isOpenUserActions}
+				<button
+					class="aua-overlay"
+					transition:fade={{ duration: 100 }}
+					on:click={forceCloseUserActions}
+				/>
+			{/if}
+			<div class="aside-user-actions">
+				{#if userInfo?.loggedIn}
+					<Button color="primary" on:click={userActionsToggle}>
+						<div class="aua-toggle">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								fill="none"
@@ -134,39 +202,25 @@
 									d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
 								/>
 							</svg>
-						</Button>
-						{#if openQuickUserMenu}
-							<div class="quick-user-menu" transition:slide>
-								<h6 class="ps-2">{userInfo?.username}</h6>
-								<b>Quick Actions</b>
-								<a href="/dashboard">Dashboard</a>
-								<a href="/settings">Settings</a>
-								<a href="/logout">Logout</a>
-							</div>
-						{/if}
-					</div>
+							<b>{userInfo?.username}</b>
+						</div>
+					</Button>
 				{:else}
 					<Button color="primary-invert" type="link" href="/login">
 						<b>Log In</b>
 					</Button>
 				{/if}
+
+				{#if isOpenUserActions}
+					<ul class="aua-nav" transition:fade={{ duration: 150 }}>
+						{#each userActionsLists as { name, href }}
+							<li class="aua-nav-item">
+								<a {href} on:click={userActionsToggle}>{name}</a>
+							</li>
+						{/each}
+					</ul>
+				{/if}
 			</div>
-		</div>
-	</div>
-</header>
-{#if openSidebar}
-	<aside in:fly={{ x: -100 }} out:fly={{ x: -100 }}>
-		<div class="aside-header">
-			<h5>Menu</h5>
-		</div>
-		<div class="aside-body" role="navigation">
-			<span class="aside-menu" role="menu">
-				{#each navigations as { name, href }}
-					<a role="menuitem" {href} on:click={navigationToggle}>
-						{name}
-					</a>
-				{/each}
-			</span>
 		</div>
 	</aside>
 {/if}
@@ -181,7 +235,7 @@
         h-14
         backdrop-blur-sm;
 	}
-	.header-wrapper {
+	nav {
 		@apply px-4
         py-2
         xl:container
@@ -191,7 +245,7 @@
         items-center
         h-full;
 	}
-	.header-logo {
+	.icon {
 		@apply flex
         items-center
 		space-x-4;
@@ -207,7 +261,7 @@
 	.toggle {
 		@apply md:hidden;
 	}
-	.header-menu {
+	.menu {
 		@apply md:flex
         hidden
         list-none
@@ -215,16 +269,18 @@
 		py-2;
 	}
 
-	.header-menu-nav {
+	.menu-nav {
 		@apply bg-opacity-10 backdrop-blur-md dark:bg-opacity-10 px-3 py-2 rounded bg-slate-100 hover:bg-slate-200 dark:hover:bg-neutral-700 transition dark:bg-neutral-800 font-bold w-24 text-center;
 	}
-	.header-quickaccess {
+	.quickaccess {
 		@apply flex
         items-center;
 	}
 	aside {
-		z-index: 49;
+		z-index: 100;
 		@apply fixed
+		flex
+		flex-col
         top-0
         bg-slate-100
         h-screen
@@ -233,15 +289,14 @@
 	}
 
 	.aside-header {
-		@apply mt-14
-        p-4
+		@apply p-4
         flex
         items-center
-        justify-between;
+        space-x-4;
 	}
 
 	.aside-body {
-		@apply mx-4;
+		@apply mx-4 grow flex items-center;
 	}
 	.aside-menu {
 		@apply flex
@@ -259,28 +314,46 @@
 		dark:hover:text-slate-200;
 	}
 
-	.quick-user {
-		@apply relative;
-	}
-	.quick-user-menu {
-		@apply text-right
-        w-48
-        shadow-lg
-        bg-slate-100
-        dark:bg-neutral-800
-        py-2
-        px-2
-        rounded-md
-        absolute
-        right-0
-        mt-2
-        bg-opacity-95;
+	.aside-footer {
+		@apply w-full p-3;
 	}
 
-	.quick-user-menu > * {
-		@apply w-full block text-left py-2 transition px-4 rounded;
+	/* User action in desktop mode */
+	.user-actions {
+		@apply relative max-md:hidden md:block;
 	}
-	.quick-user-menu > a {
-		@apply hover:bg-slate-200 hover:dark:bg-neutral-700;
+	.ua-nav {
+		@apply absolute top-full right-0 mt-4 w-64 list-none ps-0 bg-slate-100 dark:bg-neutral-800 rounded;
+	}
+	.ua-nav-item {
+		@apply px-4 p-3 w-full;
+	}
+	.ua-nav-item > * {
+		@apply w-full h-full block;
+	}
+
+	/* User action in mobile mode */
+	.aside-user-actions {
+		@apply max-md:flex flex-col relative;
+	}
+	.aua-toggle {
+		@apply flex space-x-2;
+	}
+	.aua-overlay {
+		@apply fixed h-screen w-screen top-0 left-0 backdrop-blur-md;
+	}
+	.aua-nav {
+		@apply rounded list-none mb-4 p-0 bg-slate-50 absolute bottom-full font-bold w-full;
+	}
+
+	.aua-nav-item {
+		@apply w-full bg-neutral-800;
+	}
+	.aua-nav-item > a {
+		@apply w-full h-full block;
+	}
+
+	.aua-nav-item > a {
+		@apply hover:bg-slate-200 dark:hover:bg-neutral-700 px-4 py-3;
 	}
 </style>
