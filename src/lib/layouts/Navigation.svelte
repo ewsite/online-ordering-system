@@ -17,6 +17,12 @@
 		{ name: 'Log Out', href: '/logout' }
 	]
 
+	const userActionsLists = [
+		{ name: 'Dashboard', href: '/dashboard' },
+		{ name: 'Settings', href: '/settings' },
+		{ name: 'Log Out', href: '/logout' }
+	]
+
 	let openSidebar: boolean = false
 	let isOpenUserActions: boolean = true
 
@@ -70,11 +76,8 @@
 				</a>
 			{/each}
 		</div>
-		<div class="quickaccess space-x-4">
-			<button
-				class="thememode-toggle qa-menu-nav"
-				on:click={() => themeModeToggler.toggle()}
-			>
+		<div class="header-quickaccess space-x-4">
+			<button class="thememode-toggle" on:click={() => themeModeToggler.toggle()}>
 				{#if $themeModeToggler == 'light'}
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -287,13 +290,8 @@
 		py-2;
 	}
 
-	.menu-nav {
-		@apply w-24 text-center;
-	}
-
-	.qa-menu-nav,
-	.menu-nav {
-		@apply bg-opacity-10 backdrop-blur-md dark:bg-opacity-10 px-3 py-2 rounded bg-slate-100 hover:bg-slate-200 dark:hover:bg-neutral-700 transition dark:bg-neutral-800 font-bold;
+	.header-menu-nav {
+		@apply bg-opacity-10 backdrop-blur-md dark:bg-opacity-10 px-3 py-2 rounded bg-slate-100 hover:bg-slate-200 dark:hover:bg-neutral-700 transition dark:bg-neutral-800 font-bold w-24 text-center;
 	}
 	.quickaccess {
 		@apply flex
