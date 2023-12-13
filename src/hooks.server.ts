@@ -12,36 +12,35 @@ export const handle: Handle = async ({ event, resolve }) => {
 		admin: ['/dashboard/order']
 	}
 
-	let accessToken = event.cookies.get('_atok') ?? null
+	const accessToken = event.cookies.get('_atok') ?? null
 	const refreshToken = event.cookies.get('_rtok') ?? null
 
 	if (!refreshToken) {
 		event.cookies.delete('_atok')
 		event.locals.loggedIn = false
 	} else {
-		if (!accessToken || !authInstance.verifyAccessToken(accessToken)) {
-			accessToken = authInstance.requestAccessToken(refreshToken)
-		}
+		let newAccessToken: string | null
+		newAccessToken = !accessToken
+			? authInstance.requestAccessToken(refreshToken)
+			: accessToken
 
-		if (!accessToken) {
+		if (!newAccessToken) {
 			event.cookies.delete('_atok')
 			event.cookies.delete('_rtok')
 			throw redirect(301, '/')
 		} else {
-			event.cookies.set('_atok', accessToken, {
+			event.cookies.set('_atok', newAccessToken, {
 				path: '/'
 			})
-		}
-
-		const tokens = authInstance.decodeToken(accessToken)
-
-		// Add Basic information to the locals
-		event.locals = {
-			loggedIn: true,
-			userId: tokens?.sub,
-			profileId: tokens?.context?.profileId,
-			username: tokens?.context?.username,
-			role: tokens?.context?.role
+			const tokens = authInstance.decodeToken(newAccessToken)
+			// Add Basic information to the locals
+			event.locals = {
+				loggedIn: true,
+				userId: tokens?.sub,
+				profileId: tokens?.context?.profileId,
+				username: tokens?.context?.username,
+				role: tokens?.context?.role
+			}
 		}
 	}
 
@@ -60,7 +59,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 				throw redirect(
 					301,
 					`/login?redirect=${encodeURIComponent(
-						event.url.pathname + (event.url.search ?? '')
+						event.url.pathname + String(event.url.search)
 					)}`
 				)
 		}
