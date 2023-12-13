@@ -32,6 +32,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Log In - {data.meta.title}</title>
+</svelte:head>
+
 <div class="space-y-4">
 	<div class="flex align-center space-x-4">
 		<button on:click={() => history.back()}>

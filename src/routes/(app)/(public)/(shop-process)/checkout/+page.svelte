@@ -5,6 +5,7 @@
 	import { goto } from '$app/navigation'
 	import Orders from '$lib/layouts/Orders.svelte'
 	import type { PageData, SubmitFunction } from './$types'
+	import { fade, slide } from 'svelte/transition'
 
 	export let data: PageData
 
@@ -54,7 +55,7 @@
 </script>
 
 <svlete:head>
-	<title>{data.autoCheckout ? 'Auto-Checkout' : 'Checkout'}</title>
+	<title>{data.autoCheckout ? 'Auto-Checkout' : 'Checkout'} - {data.meta.title}</title>
 </svlete:head>
 {#if data?.cartItems?.length}
 	<Container heading>
@@ -72,23 +73,60 @@
 				<div class="address-box">
 					{#if data.addressList?.length}
 						{#each data.addressList as address, i}
-							<button
-								class="address-box-item"
-								class:selected={selectedShippingAddress == address.id}
-								tabindex={i}
+							<Button
+								color={selectedShippingAddress == address.id
+									? 'success'
+									: 'primary-invert'}
 								on:click={() => setSelectedShippingAddress(address.id)}
 							>
-								<b>{address.firstName} {address.lastName}</b>
-								<p>
-									{String(address.unitFloor)}
-									{address.streetBldgName}, {address.barangay}, {address.city}, {address.province}
-								</p>
-							</button>
+								<div class="flex space-x-2 items-center">
+									{#if selectedShippingAddress == address.id}
+										<svg
+											transition:fade={{ duration: 150 }}
+											xmlns="http://www.w3.org/2000/svg"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke-width="1.5"
+											stroke="currentColor"
+											class="w-6 h-6"
+										>
+											<path
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												d="M4.5 12.75l6 6 9-13.5"
+											/>
+										</svg>
+									{/if}
+									<div class="transition-all duration-150 text-left">
+										<b>{address.firstName} {address.lastName}</b>
+										<p class="m-0">
+											{String(address.unitFloor)}
+											{address.streetBldgName}, {address.barangay}, {address.city}, {address.province}
+										</p>
+									</div>
+								</div>
+							</Button>
 						{/each}
 					{:else}
-						<a class="address-box-item" href="/settings/address">
-							Set up your address first.
-						</a>
+						<Button type="link" href="/settings/address?fc=1">
+							<div class="flex space-x-2">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="1.5"
+									stroke="currentColor"
+									class="w-6 h-6"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										d="M12 4.5v15m7.5-7.5h-15"
+									/>
+								</svg>
+								<b>Add Address</b>
+							</div>
+						</Button>
 					{/if}
 				</div>
 				<form method="POST" class="space-y-4" use:enhance={checkout}>
@@ -156,13 +194,5 @@
 	}
 	.address-box {
 		@apply grid md:grid-cols-2 grid-cols-1 gap-4;
-	}
-
-	.address-box-item {
-		@apply text-left bg-slate-100 dark:bg-neutral-900 hover:dark:bg-neutral-700 hover:bg-slate-200 p-2 rounded-md transition;
-	}
-
-	.address-box-item.selected {
-		@apply text-green-500 bg-green-500 bg-opacity-10 hover:bg-green-600 hover:text-slate-50;
 	}
 </style>

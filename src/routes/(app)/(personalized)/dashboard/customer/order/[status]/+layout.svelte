@@ -26,6 +26,9 @@
 	]
 </script>
 
+<svelte:head>
+	<title>{title} - {data.meta.title}</title>
+</svelte:head>
 <h3>{title}</h3>
 
 <div class="tabs">

@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { enhance } from '$app/forms'
 	import { Button, Modal, Input } from '$lib/components'
-	import type { SubmitFunction } from './$types'
+	import type { PageData, SubmitFunction } from './$types'
 
+	export let data: PageData
 	let addProductModal = false
 	let errorModalMessage = String()
 
@@ -18,6 +19,9 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Product Editor - {data.meta.title}</title>
+</svelte:head>
 <h3>Product Editor</h3>
 <div class="space-y-4">
 	<p>You want to add a product to the shop?</p>

@@ -1,11 +1,14 @@
 <script lang="ts">
 	import { Container } from '$lib/layouts'
 	import { Button } from '$lib/components'
+	import type { PageData } from './$types'
+
+	export let data: PageData
 </script>
 
-<svlete:head>
-	<title>Home</title>
-</svlete:head>
+<svelte:head>
+	<title>{data.meta.title}</title>
+</svelte:head>
 <Container
 	itemsToCenter
 	heading

@@ -1,16 +1,24 @@
-<script>
+<script lang="ts">
 	import { Container } from '$lib/layouts'
 	import { SidePanelItem, SidePanelContainer } from '$lib/components'
+	import type { LayoutData } from './$types'
+	export let data: LayoutData
 
-	export let data
+	let title: string
 	const navigations = {
 		default: [
 			{ name: 'Shipping Address', href: '/settings/address' },
 			{ name: 'Account', href: '/settings/account' }
 		]
 	}
+
+	$: title =
+		navigations.default.find((nav) => data?.url.startsWith(nav?.href))?.name ?? 'Settings'
 </script>
 
+<svelte:head>
+	<title>{title} - {data.meta.title}</title>
+</svelte:head>
 <Container heading>
 	<SidePanelContainer>
 		<svelte:fragment slot="header">

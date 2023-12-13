@@ -5,9 +5,9 @@
 	export let data: PageData
 </script>
 
-<svlete:head>
-	<title>Shop</title>
-</svlete:head>
+<svelte:head>
+	<title>Shop - {data.meta.title}</title>
+</svelte:head>
 <Container heading>
 	<div class="row">
 		<span>

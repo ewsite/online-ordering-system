@@ -2,8 +2,10 @@
 	import { Button, Modal, Input } from '$lib/components'
 	import { invalidate } from '$app/navigation'
 	import { enhance } from '$app/forms'
-	import type { SubmitFunction } from './$types'
-	export let data
+	import { page } from '$app/stores'
+	import type { PageData, SubmitFunction } from './$types'
+
+	export let data: PageData
 
 	let nextTargetPlanet: (typeof data.addressList)[number] | null
 	let openAddressModal = false
@@ -71,6 +73,29 @@
 	</Button>
 </div>
 
+{#if $page.url.searchParams.get('fc')}
+	<div class="fixed bottom-12">
+		<Button on:click={() => history.back()}>
+			<div class="flex space-x-2">
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke-width="1.5"
+					stroke="currentColor"
+					class="w-6 h-6"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M4.5 12.75l6 6 9-13.5"
+					/>
+				</svg>
+				<b>Save and Back to Checkout</b>
+			</div>
+		</Button>
+	</div>
+{/if}
 <Modal bind:openModal={openAddressModal} on:close={() => (nextTargetPlanet = null)}>
 	<svelte:fragment slot="title">
 		{nextTargetPlanet ? 'Edit Address' : 'Add New Address'}

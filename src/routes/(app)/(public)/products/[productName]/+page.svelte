@@ -35,7 +35,7 @@
 </script>
 
 <svlete:head>
-	<title>{data?.product?.name}</title>
+	<title>{data?.product?.name} - {data.meta.title}</title>
 </svlete:head>
 <Container heading>
 	<div class="grid md:grid-cols-2 grid-cols-1 gap-4">
@@ -49,8 +49,7 @@
 		<div class="space-y-2 flex flex-col">
 			<div class="py-2">
 				<h3 class="m-0">{data.product.name}</h3>
-				<p class="m-0">69 Reviews</p>
-				<p>Php {data.product.price}.00</p>
+				<p class="text-xl">Php {data.product.price}.00</p>
 			</div>
 			<hr />
 			<div class="">

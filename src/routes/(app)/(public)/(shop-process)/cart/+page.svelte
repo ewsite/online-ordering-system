@@ -18,7 +18,7 @@
 </script>
 
 <svlete:head>
-	<title>Cart</title>
+	<title>Cart - {data.meta.title}</title>
 </svlete:head>
 <Container heading>
 	<div class="cart-container">

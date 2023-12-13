@@ -1,7 +1,7 @@
 <script context="module">
 	const steps = writable(0)
 	const errorMessage = writable(null)
-	const data = writable(new Map())
+	const _data = writable(new Map())
 </script>
 
 <script lang="ts">
@@ -10,12 +10,14 @@
 	import { setContext } from 'svelte'
 	import { writable } from 'svelte/store'
 	import { slide } from 'svelte/transition'
+	import type { PageData } from './$types'
 
+	export let data: PageData
 	const stepsEndpoint = ['/confirm-age', '/auth', '/profile', '/accept']
 
 	setContext('steps', steps)
 	setContext('errorMessage', errorMessage)
-	setContext('data', data)
+	setContext('data', _data)
 	$: {
 		if ($steps != stepsEndpoint.length) {
 			if ($steps > 0) {
@@ -24,13 +26,17 @@
 			}
 		} else {
 			$steps = 0
-			$data = new Map()
+			$_data = new Map()
 		}
 	}
 	function backSteps() {
 		if (!$steps) goto('/login', { replaceState: true })
 	}
 </script>
+
+<svelte:head>
+	<title>Register - {data.meta.title}</title>
+</svelte:head>
 
 <div class="space-y-4">
 	<div class="flex align-center space-x-4">
@@ -65,8 +71,8 @@
 	method="POST"
 	action="/register?/register"
 	use:enhance={async ({ formData }) => {
-		for (const d of $data.keys()) {
-			formData.set(d, $data.get(d))
+		for (const d of $_data.keys()) {
+			formData.set(d, $_data.get(d))
 		}
 		return async () => {
 			await goto('/login', { replaceState: true })

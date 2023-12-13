@@ -66,6 +66,6 @@
             items-center;
 	}
 	div:not(.page-loading) {
-		@apply overflow-x-hidden;
+		@apply overflow-x-hidden relative;
 	}
 </style>

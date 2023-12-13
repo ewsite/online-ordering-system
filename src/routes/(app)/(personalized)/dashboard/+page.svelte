@@ -1,9 +1,12 @@
 <script lang="ts">
-	import type { LayoutServerData } from './$types'
+	import type { PageData } from './$types'
 
-	export let data: LayoutServerData
+	export let data: PageData
 </script>
 
+<svelte:head>
+	<title>Dashboard - {data.meta.title}</title>
+</svelte:head>
 <div class="space-y-4">
 	{#if data.profile}
 		<h3>Hi, {data.profile.firstName} {data.profile.lastName}!</h3>

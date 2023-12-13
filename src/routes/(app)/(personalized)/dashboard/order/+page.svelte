@@ -12,6 +12,10 @@
 	})
 </script>
 
+<svelte:head>
+	<title>My Orders - {data.meta.title}</title>
+</svelte:head>
+
 <h3>My Orders</h3>
 <div class="cart-container">
 	{#if data?.orders?.length}
