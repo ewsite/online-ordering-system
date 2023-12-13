@@ -59,7 +59,6 @@ class auth {
 						role: userInfo.role
 					}
 				},
-				// @ts-expect-error No strict types for .env variables.
 				process.env.SPICY_KEY2,
 				{ expiresIn: '7d' }
 			)
@@ -68,7 +67,6 @@ class auth {
 
 	requestAccessToken(refreshJwtToken: string): string | null {
 		try {
-			// @ts-expect-error No strict types for .env variables.
 			jwt.verify(refreshJwtToken, process.env.SPICY_KEY2)
 			const data = this.decodeToken(refreshJwtToken) as AuthJwtPayload
 			return jwt.sign(
@@ -77,7 +75,6 @@ class auth {
 					sub: data.sub,
 					context: data.context
 				},
-				// @ts-expect-error No strict types for .env variables.
 				process.env.SPICY_KEY,
 				{ expiresIn: '10m' }
 			)
@@ -88,7 +85,6 @@ class auth {
 
 	verifyAccessToken(accessJwtToken: string): boolean {
 		try {
-			// @ts-expect-error No strict types for .env variables.
 			jwt.verify(accessJwtToken, process.env.SPICY_KEY)
 		} catch (error) {
 			return false
