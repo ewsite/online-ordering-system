@@ -1,9 +1,9 @@
 <footer>
 	<section>
 		<div>
-			<h6 class="m-0">
+			<!-- <h6 class="m-0">
 				<b>Online Ordering System v0.1.2 (alpha)</b>
-			</h6>
+			</h6> -->
 			<small>Copyright 2023, All Rights Literally Reserved</small>
 		</div>
 	</section>
