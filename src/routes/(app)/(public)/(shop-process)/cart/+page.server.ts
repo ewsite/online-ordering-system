@@ -9,7 +9,7 @@ export const actions: Actions = {
 		const data = Object.fromEntries(await request.formData())
 
 		const args: CartArgs = {
-			cartId: Number(data?.id),
+			cartId: Number(data?.cartId),
 			profileId: locals?.profileId
 		}
 
