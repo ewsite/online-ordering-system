@@ -24,6 +24,7 @@ export const actions: Actions = {
 			profileId: String(data?.profileId),
 			status: String(data?.orderStatus) as $Enums.OrderStatus
 		}
+
 		try {
 			await orderInstance.setOrderStatus(filteredData)
 		} catch (error) {

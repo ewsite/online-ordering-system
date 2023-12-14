@@ -22,7 +22,7 @@ export const load: LayoutServerLoad = ({ params }) => {
 	}
 
 	return {
-		selectedStatus: params.status,
+		selectedStatus: orderStatus,
 		customerOrderTitle: title
 	}
 }

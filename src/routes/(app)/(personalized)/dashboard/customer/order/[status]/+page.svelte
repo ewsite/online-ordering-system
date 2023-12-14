@@ -7,7 +7,7 @@
 	import { enhance } from '$app/forms'
 	import { onMount } from 'svelte'
 	import { invalidate } from '$app/navigation'
-	import { $Enums as EnumStatus } from '@prisma/client'
+
 	export let data
 
 	const REFRESH_DURATION = 3000
@@ -70,7 +70,7 @@
 				<div class="actions">
 					<div class="" />
 					<div class="space-x-4 flex items-center">
-						{#if data.selectedStatus == EnumStatus.OrderStatus.BEGIN_ORDER}
+						{#if data.selectedStatus != 'CANCELLED' || data.selectedStatus != 'DELIVERED'}
 							<Button
 								type="submit"
 								color="primary"
