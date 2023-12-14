@@ -38,13 +38,22 @@ model Profile {
 }
 
 model Products {
-  id          Int      @id @default(autoincrement())
+  id          Int               @id @default(autoincrement())
   name        String
-  url_name    String   @unique
-  description String   @default("Lorem Ipsum Doormat. Please give me a description for...")
+  url_name    String            @unique
+  description String            @default("Lorem Ipsum Doormat. Please give me a description for...")
   price       Float
-  createdAt   DateTime @default(now())
+  createdAt   DateTime          @default(now())
   cart        Cart[]
+  inventory   ProductInventory?
+}
+
+model ProductInventory {
+  id             Int      @id @default(autoincrement())
+  product        Products @relation(fields: [productId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  productId      Int      @unique
+  stocks         Int
+  purchasedCount Int      @default(0)
 }
 
 model Cart {

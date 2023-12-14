@@ -44,6 +44,17 @@ CREATE TABLE `Products` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
+CREATE TABLE `ProductInventory` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `productId` INTEGER NOT NULL,
+    `stocks` INTEGER NOT NULL,
+    `purchasedCount` INTEGER NOT NULL DEFAULT 0,
+
+    UNIQUE INDEX `ProductInventory_productId_key`(`productId`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `Cart` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `productId` INTEGER NOT NULL,
@@ -88,6 +99,9 @@ ALTER TABLE `Credentials` ADD CONSTRAINT `Credentials_userId_fkey` FOREIGN KEY (
 
 -- AddForeignKey
 ALTER TABLE `Profile` ADD CONSTRAINT `Profile_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `ProductInventory` ADD CONSTRAINT `ProductInventory_productId_fkey` FOREIGN KEY (`productId`) REFERENCES `Products`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Cart` ADD CONSTRAINT `Cart_productId_fkey` FOREIGN KEY (`productId`) REFERENCES `Products`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
