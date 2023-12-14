@@ -1,7 +1,6 @@
-import { type PrismaClient, $Enums } from '@prisma/client'
+import { type PrismaClient, $Enums, type Prisma } from '@prisma/client'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import type { TypeError } from './types'
-
 export type OrderInfo = {
 	profileId: App.Locals['profileId']
 	shippingInfoId: string
@@ -124,26 +123,25 @@ class order {
 		let orders
 
 		try {
-			let where
+			let where: Prisma.OrderWhereInput
 			switch (status) {
-				case $Enums.OrderStatus.BEGIN_ORDER:
-					where = {
-						where: {
-							AND: { NOT: [{ orderStatus: 'DELIVERED' }, { orderStatus: 'CANCELLED' }] }
-						}
-					}
-					break
 				case $Enums.OrderStatus.DELIVERED:
-					where = { where: { orderStatus: 'DELIVERED' } }
+					where = { orderStatus: $Enums.OrderStatus.DELIVERED }
 					break
 				case $Enums.OrderStatus.CANCELLED:
-					where = { where: { orderStatus: 'CANCELLED' } }
+					where = { orderStatus: $Enums.OrderStatus.CANCELLED }
 					break
 				default:
-					where = {}
+					where = {
+						NOT: [
+							{ orderStatus: $Enums.OrderStatus.CANCELLED },
+							{ orderStatus: $Enums.OrderStatus.DELIVERED }
+						]
+					}
 			}
+
 			orders = await this.db.order.findMany({
-				...where,
+				where: where,
 				include: { profile: true },
 				orderBy: { orderedAt: 'desc' }
 			})
